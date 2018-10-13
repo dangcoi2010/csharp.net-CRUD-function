@@ -1,0 +1,52 @@
+﻿@model jQueryAjaxModal.Models.Job
+@{
+    Layout = null;
+}
+
+
+@using (Html.BeginForm("AddOrEdit", "Job", FormMethod.Post, new { onsubmit = "return SubmitForm(this)" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ID)
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
+            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Salary, htmlAttributes: new { @class = "control-label " })
+            @Html.EditorFor(model => model.Salary, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Salary, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Datecreated, htmlAttributes: new { @class = "control-label " })
+            @Html.EditorFor(model => model.Datecreated, new { htmlAttributes = new { @class = "form-control datepicker" , value = "" } })
+            @Html.ValidationMessageFor(model => model.Datecreated, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Activated, htmlAttributes: new { @class = "control-label " })
+            <div class="checkbox">
+                @Html.EditorFor(model => model.Activated)
+                @Html.ValidationMessageFor(model => model.Activated, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Submit" class="btn btn-sm btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+<script>
+    $(".datepicker").datetimepicker({
+        startDate: new Date()
+    });
+</script>

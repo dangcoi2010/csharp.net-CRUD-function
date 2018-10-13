@@ -1,0 +1,152 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<h2>Job CRUD Operations</h2>
+
+<a class="btn btn-sm btn-success" style="margin:10px 0px;" onclick="PopupForm('@Url.Action("AddOrEdit","Job")')">Thêm công việc mới</a>
+<table id="employeeTable" class="display table .table-sm">
+    <thead>
+        <tr>
+            <th>Mã</th>
+            <th>Tên công việc</th>
+            <th>Mức lương</th>
+            <th>Ngày tạo</th>
+            <th>Kích hoạt</th>
+            <th></th>
+        </tr>
+    </thead>
+</table>
+
+<a href="#" id="notify" class="btn btn-dark" onclick="Notify()">notify</a>
+
+<link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+@section scripts{
+
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script>
+
+        var Popup, dataTable;
+        $(document).ready(function () {
+
+            dataTable = $('#employeeTable').DataTable({
+                "ajax": {
+                    "url": "/Job/GetJobs",
+                    "type": "GET",
+                    "dataType": "json"
+                },
+                "columns": [
+                    { "data": 'ID' },
+                    { "data": 'Name' },
+                    { "data": 'Salary' },
+                    {
+                        "data": 'Datecreated', 'render': function (data) { return ToJavaScriptDate(data); }
+                    },
+                    { "data": 'Activated' },
+                    { "data": 'ID', "render": function (data) {
+                        return "<a class='btn btn-primary btn-sm' onclick=PopupForm('@Url.Action("AddOrEdit", "Job")/" + data + "')><i class='fa fa-pencil'></i> Edit </a> <a class='btn btn-danger btn-sm' onclick='Delete("+data+")'><i class='fa fa-trash'></i> Delete </a>" }
+                    }
+                ],
+                "language": {
+                    "emptyTable": "No data"
+                },
+                "orderable": false,
+                "width": "150px"
+            });
+            
+
+
+        });
+        function ToJavaScriptDate(value) {
+            var pattern = /Date\(([^)]+)\)/;
+            var results = pattern.exec(value);
+            var dt = new Date(parseFloat(results[1]));
+            return (dt.getMonth() + 1) + "-" + dt.getDate() + "-" + dt.getFullYear();
+        }
+
+        function PopupForm(url) {
+            var formDiv = $('<div/>');
+            $.get(url).done(function (response) {
+                formDiv.html(response);
+
+                Popup = formDiv.dialog({
+                    autoOpen: true,
+                    show: { effect: 'scale', duration: 250 },
+                    hide: { effect: 'drop', duration: 100 },
+                    resizable: false,
+                    title: "Điền thông tin công việc",
+                    height: 600,
+                    width: 400,
+                    close: function () {
+                        Popup.dialog('destroy').remove();
+                    }
+                });
+            });
+        }
+
+        function SubmitForm(form) {
+            $.validator.unobtrusive.parse(form);
+            if ($(form).valid()) {
+                $.ajax({
+                    type: "POST",
+                    url: form.action,
+                    data: $(form).serialize(),
+                    success: function (data) {
+                        if (data.success) {
+                            Popup.dialog('close');
+                            dataTable.ajax.reload();
+
+                            $.notify(data.message, {
+                                globalPosition: "right bottom",
+                                className: "success"
+                            })
+                        }
+                    }
+                });
+            }
+            return false;
+        }
+
+        function Notify() {
+            $.notify("success", {
+                globalPosition: "right bottom",
+                className: "success",
+                showAnimation: "fadeIn",
+                hideAnimation: "fadeOut",
+                autoHideDelay: 1000,
+            })
+        }
+
+
+        function Delete(id) {
+            $.confirm({
+                title: 'Confirm Delete!',
+                content: 'Do you want to delete this record?',
+                buttons: {
+                    confirm: function () {
+                        $.ajax({
+                            type: "POST",
+                            url: '@Url.Action("Delete", "Job")/' + id,
+                            success: function (data) {
+                                if (data.success) {
+                                    dataTable.ajax.reload();
+
+                                    $.notify(data.message, {
+                                        globalPosition: "right bottom",
+                                        className: "warn"
+                                    });
+                                }
+                            }
+                        });
+                    },
+                    cancel: function () {
+                        $.alert('Canceled!');
+                    }
+                }
+            });
+        }
+
+    </script>
+}
