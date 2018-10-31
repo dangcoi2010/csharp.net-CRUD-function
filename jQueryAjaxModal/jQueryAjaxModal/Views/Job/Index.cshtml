@@ -6,7 +6,7 @@
 
 <h2>Job CRUD Operations</h2>
 
-<a class="btn btn-sm btn-success" style="margin:10px 0px;" onclick="PopupForm('@Url.Action("AddOrEdit","Job")')">Thêm công việc mới</a>
+<button class="btn btn-sm btn-success" style="margin:10px 0px;" onclick="PopupForm('@Url.Action("AddOrEdit","Job")')"><i class="fa fa-plus"></i> Thêm công việc mới</button>
 <table id="employeeTable" class="display table .table-sm">
     <thead>
         <tr>
@@ -20,11 +20,9 @@
     </thead>
 </table>
 
-<a href="#" id="notify" class="btn btn-dark" onclick="Notify()">notify</a>
 
 <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
 @section scripts{
-
     <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script>
 
@@ -46,14 +44,15 @@
                     },
                     { "data": 'Activated' },
                     { "data": 'ID', "render": function (data) {
-                        return "<a class='btn btn-primary btn-sm' onclick=PopupForm('@Url.Action("AddOrEdit", "Job")/" + data + "')><i class='fa fa-pencil'></i> Edit </a> <a class='btn btn-danger btn-sm' onclick='Delete("+data+")'><i class='fa fa-trash'></i> Delete </a>" }
+                        return "<button class='btn btn-primary btn-sm' onclick=PopupForm('@Url.Action("AddOrEdit", "Job")/" + data + "')><i class='fa fa-pencil'></i> Edit </button> <button class='btn btn-danger btn-sm' onclick='Delete(" + data +")'><i class='fa fa-trash'></i> Delete </button>" }
                     }
                 ],
                 "language": {
                     "emptyTable": "No data"
                 },
                 "orderable": false,
-                "width": "150px"
+                "width": "150px",
+                
             });
             
 
@@ -73,12 +72,13 @@
 
                 Popup = formDiv.dialog({
                     autoOpen: true,
-                    show: { effect: 'scale', duration: 250 },
-                    hide: { effect: 'drop', duration: 100 },
+                    show: { effect: 'fade', duration: 250 },
+                    hide: { effect: 'fade', duration: 100 },
                     resizable: false,
                     title: "Điền thông tin công việc",
-                    height: 600,
-                    width: 400,
+                    height: 500,
+                    width: 350,
+                    modal: true,
                     close: function () {
                         Popup.dialog('destroy').remove();
                     }
@@ -99,26 +99,20 @@
                             dataTable.ajax.reload();
 
                             $.notify(data.message, {
-                                globalPosition: "right bottom",
+                                globalPosition: "right top",
+                                showAnimation: "fadeIn",
+                                hideAnimation: "fadeOut",
+                                autoHideDelay: 2000,
                                 className: "success"
-                            })
+
+                            });
                         }
                     }
                 });
             }
             return false;
         }
-
-        function Notify() {
-            $.notify("success", {
-                globalPosition: "right bottom",
-                className: "success",
-                showAnimation: "fadeIn",
-                hideAnimation: "fadeOut",
-                autoHideDelay: 1000,
-            })
-        }
-
+        
 
         function Delete(id) {
             $.confirm({
@@ -132,10 +126,13 @@
                             success: function (data) {
                                 if (data.success) {
                                     dataTable.ajax.reload();
-
                                     $.notify(data.message, {
-                                        globalPosition: "right bottom",
-                                        className: "warn"
+                                        globalPosition: "right top",
+                                        showAnimation: "fadeIn",
+                                        hideAnimation: "fadeOut",
+                                        autoHideDelay: 2000,
+                                        className: "error"
+
                                     });
                                 }
                             }

@@ -16,17 +16,16 @@ namespace jQueryAjaxModal.Models
     public partial class Job
     {
         public short ID { get; set; }
-        [Required(ErrorMessage = "This field is required.")]
+        [Required(ErrorMessage = "Bạn chưa nhập dữ liệu.")]
         [Display(Name= "Tên công việc")]
         public string Name { get; set; }
-        [Required(ErrorMessage = "This field is required.")]
+        [Required(ErrorMessage = "Bạn chưa nhập dữ liệu.")]
         [Display(Name = "Mức lương")]
         public decimal Salary { get; set; }
         [Display(Name = "Ngày tạo")]
-        [DataType(DataType.DateTime), Required(ErrorMessage = "This field is required.")]
+        [DataType(DataType.DateTime), Required(ErrorMessage = "Bạn chưa nhập dữ liệu.")]
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm}", ApplyFormatInEditMode = true)]
         public System.DateTime Datecreated { get; set; }
-        [Required(ErrorMessage = "This field is required.")]
         [Display(Name = "Kích hoạt")]
         public bool Activated { get; set; }
     }

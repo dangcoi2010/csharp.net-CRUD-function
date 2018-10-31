@@ -25,11 +25,15 @@ namespace jQueryAjaxModal.Controllers
         [HttpGet]
         public ActionResult AddOrEdit(int id = 0)
         {
+            Job job = new Job();
             if (id == 0)
-                return View(new Job());
+            {
+                job.Datecreated = DateTime.Now;
+                return View(job);
+            }
             else
             {
-                Job job = db.Jobs.Where(model => model.ID == id).FirstOrDefault();
+                job = db.Jobs.Where(model => model.ID == id).FirstOrDefault();
                 return View(job);
             }
         }
@@ -38,19 +42,19 @@ namespace jQueryAjaxModal.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AddOrEdit(Job job)
         {
-            if(job.ID == 0)
+            if (job.ID == 0)
             {
                 db.Jobs.Add(job);
                 db.SaveChanges();
-                return Json(new { success = true, message = "Inserted successfully" }, JsonRequestBehavior.AllowGet);
+                return Json(new { success = true, action = "add", message = "Inserted successfully" }, JsonRequestBehavior.AllowGet);
             }
             else
             {
                 db.Entry(job).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
-                return Json(new { success = true, message = "Updated successfully" }, JsonRequestBehavior.AllowGet);
+                return Json(new { success = true, action = "edit", message = "Updated successfully" }, JsonRequestBehavior.AllowGet);
             }
-            
+
         }
 
         [HttpPost]
@@ -59,7 +63,7 @@ namespace jQueryAjaxModal.Controllers
             Job job = db.Jobs.Where(model => model.ID == id).FirstOrDefault();
             db.Jobs.Remove(job);
             db.SaveChanges();
-            return Json(new { success = true, message = "Deleted successfully" }, JsonRequestBehavior.AllowGet);
+            return Json(new { success = true, action = "delete", message = "Deleted successfully" }, JsonRequestBehavior.AllowGet);
         }
 
 
