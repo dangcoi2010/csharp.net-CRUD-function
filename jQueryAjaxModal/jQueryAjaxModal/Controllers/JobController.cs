@@ -42,6 +42,9 @@ namespace jQueryAjaxModal.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AddOrEdit(Job job)
         {
+            DateTime date = job.Datecreated;
+            TimeSpan time = DateTime.Now.TimeOfDay;
+            job.Datecreated = date.Add(time);
             if (job.ID == 0)
             {
                 db.Jobs.Add(job);
@@ -52,7 +55,7 @@ namespace jQueryAjaxModal.Controllers
             {
                 db.Entry(job).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
-                return Json(new { success = true, action = "edit", message = "Updated successfully" }, JsonRequestBehavior.AllowGet);
+                return Json(new { success = true, action = "update", message = "Updated successfully" }, JsonRequestBehavior.AllowGet);
             }
 
         }

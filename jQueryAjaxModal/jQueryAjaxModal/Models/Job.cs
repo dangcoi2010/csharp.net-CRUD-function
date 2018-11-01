@@ -24,7 +24,7 @@ namespace jQueryAjaxModal.Models
         public decimal Salary { get; set; }
         [Display(Name = "Ngày tạo")]
         [DataType(DataType.DateTime), Required(ErrorMessage = "Bạn chưa nhập dữ liệu.")]
-        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
         public System.DateTime Datecreated { get; set; }
         [Display(Name = "Kích hoạt")]
         public bool Activated { get; set; }
