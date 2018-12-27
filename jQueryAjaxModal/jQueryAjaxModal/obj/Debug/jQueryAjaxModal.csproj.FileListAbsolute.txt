@@ -193,7 +193,6 @@ D:\Project\CSHARP\MVC_CRUD\jQueryAjaxModal\jQueryAjaxModal\bin\Microsoft.AI.Depe
 D:\Project\CSHARP\MVC_CRUD\jQueryAjaxModal\jQueryAjaxModal\bin\Microsoft.AI.WindowsServer.xml
 D:\Project\CSHARP\MVC_CRUD\jQueryAjaxModal\jQueryAjaxModal\bin\Microsoft.AI.Web.xml
 D:\Project\CSHARP\MVC_CRUD\jQueryAjaxModal\jQueryAjaxModal\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-D:\Project\CSHARP\MVC_CRUD\jQueryAjaxModal\jQueryAjaxModal\obj\Debug\jQueryAjaxModal.csprojAssemblyReference.cache
 D:\Project\CSHARP\MVC_CRUD\jQueryAjaxModal\jQueryAjaxModal\obj\Debug\jQueryAjaxModal.csproj.CoreCompileInputs.cache
 D:\Project\CSHARP\MVC_CRUD\jQueryAjaxModal\jQueryAjaxModal\obj\Debug\jQueryAjaxModal.csproj.CopyComplete
 D:\Project\CSHARP\MVC_CRUD\jQueryAjaxModal\jQueryAjaxModal\obj\Debug\jQueryAjaxModal.dll
