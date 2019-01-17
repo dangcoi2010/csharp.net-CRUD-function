@@ -57,7 +57,6 @@ namespace jQueryAjaxModal.Controllers
                 db.SaveChanges();
                 return Json(new { success = true, action = "update", message = "Updated successfully" }, JsonRequestBehavior.AllowGet);
             }
-
         }
 
         [HttpPost]
