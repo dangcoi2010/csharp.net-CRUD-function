@@ -15,9 +15,14 @@ namespace jQueryAjaxModal.Models
 
     public partial class Job
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Job()
+        {
+            this.JobEmployees = new HashSet<JobEmployee>();
+        }
         public short ID { get; set; }
         [Required(ErrorMessage = "This field is required.")]
-        [Display(Name= "Tên công việc")]
+        [Display(Name = "Tên công việc")]
         public string Name { get; set; }
         [Required(ErrorMessage = "This field is required.")]
         [Display(Name = "Mức lương")]
@@ -29,5 +34,8 @@ namespace jQueryAjaxModal.Models
         [Required(ErrorMessage = "This field is required.")]
         [Display(Name = "Kích hoạt")]
         public bool Activated { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<JobEmployee> JobEmployees { get; set; }
     }
 }

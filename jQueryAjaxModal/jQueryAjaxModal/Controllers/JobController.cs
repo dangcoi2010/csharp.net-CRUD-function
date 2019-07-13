@@ -1,4 +1,5 @@
 ﻿using jQueryAjaxModal.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,19 @@ namespace jQueryAjaxModal.Controllers
         public ActionResult GetJobs()
         {
             List<Job> jobs = db.Jobs.ToList();
-            return Json(new { data = jobs }, JsonRequestBehavior.AllowGet);
+
+            //
+
+
+            var items = jobs.Select(row => new JobViewModel() {ID = row.ID,
+                Name = row.Name,
+                Salary = row.Salary,
+                Datecreated = row.Datecreated,
+                Activated = row.Activated });
+
+            //
+
+            return Json(new { data = items }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
@@ -38,7 +51,7 @@ namespace jQueryAjaxModal.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AddOrEdit(Job job)
         {
-            if(job.ID == 0)
+            if (job.ID == 0)
             {
                 db.Jobs.Add(job);
                 db.SaveChanges();
@@ -50,13 +63,15 @@ namespace jQueryAjaxModal.Controllers
                 db.SaveChanges();
                 return Json(new { success = true, message = "Updated successfully" }, JsonRequestBehavior.AllowGet);
             }
-            
+
         }
 
         [HttpPost]
         public ActionResult Delete(int id)
         {
             Job job = db.Jobs.Where(model => model.ID == id).FirstOrDefault();
+            var jobEmpToDelete = db.JobEmployees.Where(x => x.Job.ID == job.ID);
+            db.JobEmployees.RemoveRange(jobEmpToDelete);
             db.Jobs.Remove(job);
             db.SaveChanges();
             return Json(new { success = true, message = "Deleted successfully" }, JsonRequestBehavior.AllowGet);

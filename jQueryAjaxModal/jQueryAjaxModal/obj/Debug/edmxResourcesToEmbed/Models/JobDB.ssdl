@@ -1,5 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="JobDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Employee">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="char" MaxLength="9" Nullable="false" />
+    <Property Name="FullName" Type="varchar" MaxLength="51" Nullable="false" />
+    <Property Name="HireDate" Type="datetime" Nullable="false" />
+    <Property Name="City" Type="nvarchar" MaxLength="150" Nullable="false" />
+  </EntityType>
+  <EntityType Name="JobEmployee">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Empid" Type="char" MaxLength="9" />
+    <Property Name="Jobid" Type="smallint" />
+  </EntityType>
   <EntityType Name="Jobs">
     <Key>
       <PropertyRef Name="ID" />
@@ -7,10 +24,44 @@
     <Property Name="ID" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="Salary" Type="money" Nullable="false" />
-    <Property Name="Datecreated" Type="date" Nullable="false" />
+    <Property Name="Datecreated" Type="smalldatetime" Nullable="false" />
     <Property Name="Activated" Type="bit" Nullable="false" />
   </EntityType>
+  <Association Name="FK__JobEmploy__Empid__08EA5793">
+    <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+    <End Role="JobEmployee" Type="Self.JobEmployee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="JobEmployee">
+        <PropertyRef Name="Empid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__JobEmploy__Jobid__09DE7BCC">
+    <End Role="Jobs" Type="Self.Jobs" Multiplicity="0..1" />
+    <End Role="JobEmployee" Type="Self.JobEmployee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Jobs">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="JobEmployee">
+        <PropertyRef Name="Jobid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="JobDBModelStoreContainer">
+    <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="JobEmployee" EntityType="Self.JobEmployee" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Jobs" EntityType="Self.Jobs" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__JobEmploy__Empid__08EA5793" Association="Self.FK__JobEmploy__Empid__08EA5793">
+      <End Role="Employee" EntitySet="Employee" />
+      <End Role="JobEmployee" EntitySet="JobEmployee" />
+    </AssociationSet>
+    <AssociationSet Name="FK__JobEmploy__Jobid__09DE7BCC" Association="Self.FK__JobEmploy__Jobid__09DE7BCC">
+      <End Role="Jobs" EntitySet="Jobs" />
+      <End Role="JobEmployee" EntitySet="JobEmployee" />
+    </AssociationSet>
   </EntityContainer>
 </Schema>

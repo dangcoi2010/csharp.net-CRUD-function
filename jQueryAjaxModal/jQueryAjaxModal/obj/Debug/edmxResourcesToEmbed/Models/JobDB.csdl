@@ -9,8 +9,63 @@
     <Property Name="Salary" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
     <Property Name="Datecreated" Type="DateTime" Nullable="false" Precision="0" />
     <Property Name="Activated" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="JobEmployees" Relationship="JobDBModel.FK__JobEmploy__Jobid__09DE7BCC" FromRole="Job" ToRole="JobEmployee" />
   </EntityType>
   <EntityContainer Name="JobDBEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="Jobs" EntityType="Self.Job" />
+    <EntitySet Name="Employees" EntityType="JobDBModel.Employee" />
+    <EntitySet Name="JobEmployees" EntityType="JobDBModel.JobEmployee" />
+    <AssociationSet Name="FK__JobEmploy__Empid__08EA5793" Association="JobDBModel.FK__JobEmploy__Empid__08EA5793">
+      <End Role="Employee" EntitySet="Employees" />
+      <End Role="JobEmployee" EntitySet="JobEmployees" />
+    </AssociationSet>
+    <AssociationSet Name="FK__JobEmploy__Jobid__09DE7BCC" Association="JobDBModel.FK__JobEmploy__Jobid__09DE7BCC">
+      <End Role="Job" EntitySet="Jobs" />
+      <End Role="JobEmployee" EntitySet="JobEmployees" />
+    </AssociationSet>
   </EntityContainer>
+  <EntityType Name="Employee">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="String" Nullable="false" MaxLength="9" FixedLength="true" Unicode="false" />
+    <Property Name="FullName" Type="String" Nullable="false" MaxLength="51" FixedLength="false" Unicode="false" />
+    <Property Name="HireDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="City" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="JobEmployees" Relationship="JobDBModel.FK__JobEmploy__Empid__08EA5793" FromRole="Employee" ToRole="JobEmployee" />
+  </EntityType>
+  <EntityType Name="JobEmployee">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Empid" Type="String" MaxLength="9" FixedLength="true" Unicode="false" />
+    <Property Name="Jobid" Type="Int16" />
+    <NavigationProperty Name="Employee" Relationship="JobDBModel.FK__JobEmploy__Empid__08EA5793" FromRole="JobEmployee" ToRole="Employee" />
+    <NavigationProperty Name="Job" Relationship="JobDBModel.FK__JobEmploy__Jobid__09DE7BCC" FromRole="JobEmployee" ToRole="Job" />
+  </EntityType>
+  <Association Name="FK__JobEmploy__Empid__08EA5793">
+    <End Type="JobDBModel.Employee" Role="Employee" Multiplicity="0..1" />
+    <End Type="JobDBModel.JobEmployee" Role="JobEmployee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="JobEmployee">
+        <PropertyRef Name="Empid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__JobEmploy__Jobid__09DE7BCC">
+    <End Type="JobDBModel.Job" Role="Job" Multiplicity="0..1" />
+    <End Type="JobDBModel.JobEmployee" Role="JobEmployee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Job">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="JobEmployee">
+        <PropertyRef Name="Jobid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

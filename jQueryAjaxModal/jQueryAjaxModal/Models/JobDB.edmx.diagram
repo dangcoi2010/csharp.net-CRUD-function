@@ -6,6 +6,10 @@
     <edmx:Diagrams>
       <Diagram DiagramId="103fa5ae9ddb47dbb4c9a4d22eeb83e8" Name="Diagram1">
         <EntityTypeShape EntityType="JobDBModel.Job" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="JobDBModel.Employee" Width="1.5" PointX="0.75" PointY="3.875" />
+        <EntityTypeShape EntityType="JobDBModel.JobEmployee" Width="1.5" PointX="3" PointY="0.875" />
+        <AssociationConnector Association="JobDBModel.FK__JobEmploy__Empid__08EA5793" />
+        <AssociationConnector Association="JobDBModel.FK__JobEmploy__Jobid__09DE7BCC" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

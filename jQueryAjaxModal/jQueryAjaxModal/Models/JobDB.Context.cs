@@ -26,5 +26,7 @@ namespace jQueryAjaxModal.Models
         }
     
         public virtual DbSet<Job> Jobs { get; set; }
+        public virtual DbSet<Employee> Employees { get; set; }
+        public virtual DbSet<JobEmployee> JobEmployees { get; set; }
     }
 }
