@@ -20,17 +20,13 @@ namespace jQueryAjaxModal.Controllers
         public ActionResult GetJobs()
         {
             List<Job> jobs = db.Jobs.ToList();
-
-            //
-
+            
 
             var items = jobs.Select(row => new JobViewModel() {ID = row.ID,
                 Name = row.Name,
                 Salary = row.Salary,
                 Datecreated = row.Datecreated,
                 Activated = row.Activated });
-
-            //
 
             return Json(new { data = items }, JsonRequestBehavior.AllowGet);
         }
